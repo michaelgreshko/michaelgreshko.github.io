@@ -55,15 +55,15 @@ var svg = d3.select("body").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 d3.csv("InfDODTotal.csv", function(error, data) {
-  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "FiscalYear"; }));
-
+  
+  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Fiscal Year"; }));
   data.forEach(function(d) {
     var y0 = 0;
     d.types = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
     d.total = d.types[d.types.length - 1].y1;
   });
 
-  data.sort(function(a, b) { return b.total - a.total; });
+  data.sort(function(a, b) { return b.fiscalyear - a.fiscalyear; });
 
   x.domain(data.map(function(d) { return d.fiscalyear; }));
   y.domain([0, d3.max(data, function(d) { return d.total; })]);
